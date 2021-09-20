@@ -1,0 +1,46 @@
+#cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required (VERSION 3.4)
+#set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+# include(CTest)
+# enable_testing()
+#######################################################################################################
+#               Project settings
+#######################################################################################################
+PROJECT(rtm-server)
+
+set (CMAKE_VERBOSE_MAKEFILE on)
+
+message(STATUS "Project name: ${PROJECT_NAME}")
+
+#######################################################################################################
+#               Build and include settings
+#######################################################################################################
+find_package(OpenSSL REQUIRED system REQUIRED)
+find_package(Boost REQUIRED system filesystem)
+message(STATUS "Boost: ${Boost_LIBRARIES}")
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++14 -g -O0 -Wall" )
+SET( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -g -O0" )
+add_definitions(-DI_KNOW_THAT_THIS_CODE_IS_NOT_FOR_PRODUCTION -D_STDATOMIC_HAVE_ATOMIC -D_MORE_MARSHM)
+
+include_directories ("${PROJECT_SOURCE_DIR}")
+add_executable(
+	rtm-server 
+	server.cpp 
+	Protocol.cpp 
+	Socket.cpp 
+	SSLSocket.cpp
+)
+target_link_libraries(
+	rtm-server 
+	${OPENSSL_LIBRARIES} 
+	${Boost_LIBRARIES} 
+	${EXTRA_LIBS}
+)
+#add_executable(client client.cpp Protocol.cpp)
+#target_link_libraries(client ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES}  ${EXTRA_LIBS} )
+#add_executable(client_tls client_tls.cpp Protocol.cpp)
+#target_link_libraries(client_tls ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES}  ${EXTRA_LIBS} )
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
