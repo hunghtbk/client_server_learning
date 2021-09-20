@@ -1,12 +1,12 @@
 inherit autotools
 inherit wave-license
 
-DESCRIPTION = "RTM-Server service's bin"
-SECTION = "rtm-server"
+DESCRIPTION = "Learning-Server service's bin"
+SECTION = "learning-server"
 
 PR = "r0"
 
-FILESPATH := "${WWWWAAAAAVVVVVEEEEEE_SRC_DIR}/rtm-server:"
+FILESPATH := "${WWWWAAAAAVVVVVEEEEEE_SRC_DIR}/learning-server:"
 SRC_URI = "file://bin/"
 
 S = "${WORKDIR}/bin/"
